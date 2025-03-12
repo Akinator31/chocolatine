@@ -1,0 +1,40 @@
+name: The best workflow
+
+on:
+  push:
+    branches-ignore:
+      - 'ga-ignore-*'
+  pull_request:
+    branches-ignore:
+      - 'ga-ignore-*'
+  workflow_dispatch:
+
+env:
+  EXECUTABLES: ${{ secrets.EXECUTABLES }}
+
+jobs:
+  validate-and-mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if repo should mirror
+        id: repo-check
+        run: |
+          echo "Vérification des dépôts source et miroir."
+
+          SOURCE_REPO="${{ github.repository }}"
+          MIRROR_REPO=$(echo "${{ secrets.MIRROR_URL }}" | sed 's|https://github.com/||')
+
+          echo "Source Repository: $SOURCE_REPO"
+          echo "Mirror Repository: $MIRROR_REPO"
+
+          if [ "$SOURCE_REPO" = "$MIRROR_REPO" ]; then
+            echo "Les dépôts sont identiques. Aucune action nécessaire."
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          else
+            echo "Dépôts différents. Continuer."
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name:
+
