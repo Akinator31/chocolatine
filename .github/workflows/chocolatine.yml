@@ -16,15 +16,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: test
-        run: echo '${{ toJSON(env.MIRROR_URL) }}'
       - name: Check if repo should mirror
         id: repo-check
         run: |
           echo "Vérification des dépôts source et miroir."
 
           SOURCE_REPO="${{ github.repository }}"
-          MIRROR_REPO=$(echo "${{ env.EXECUTABLES }}" | sed 's|https://github.com/||')
+          MIRROR_REPO=$(echo "${{ vars.MIRROR_URL }}" | sed 's|https://github.com/||')
 
           echo "Source Repository: $SOURCE_REPO"
           echo "$GITHUB_CONTEXT"
