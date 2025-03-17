@@ -7,7 +7,6 @@ on:
   pull_request:
     branches-ignore:
       - 'ga-ignore-*'
-  workflow_dispatch:
 
 env:
   EXECUTABLES: ${{ secrets.EXECUTABLES }}
