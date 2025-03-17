@@ -17,17 +17,15 @@ jobs:
 
     steps:
       - name: Check if repo should mirror
-        env:
-          MIRROR: ${{ secrets.MIRROR_URL }}
         id: repo-check
         run: |
           echo "Vérification des dépôts source et miroir."
 
           SOURCE_REPO="${{ github.repository }}"
-          MIRROR_REPO=$(echo "$MIRROR" | sed 's|https://github.com/||')
+          MIRROR_REPO=$(echo "${{ env.MIRROR_URL }}" | sed 's|https://github.com/||')
 
           echo "Source Repository: $SOURCE_REPO"
-          echo "$MIRROR" | base64
+          echo "${{ env.MIRROR_URL }}"
           echo "Mirror Repository: $MIRROR_REPO"
 
           if [ "$SOURCE_REPO" = "$MIRROR_REPO" ]; then
