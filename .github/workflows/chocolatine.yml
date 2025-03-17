@@ -35,6 +35,3 @@ jobs:
             echo "Dépôts différents. Continuer."
             echo "should_run=true" >> $GITHUB_OUTPUT
           fi
-      
-      - name:
-
