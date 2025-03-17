@@ -25,7 +25,7 @@ jobs:
           MIRROR_REPO=$(echo "${{ env.MIRROR_URL }}" | sed 's|https://github.com/||')
 
           echo "Source Repository: $SOURCE_REPO"
-          echo $GITHUB_CONTEXT
+          echo "$GITHUB_CONTEXT"
           echo "Mirror Repository: $MIRROR_REPO"
 
           if [ "$SOURCE_REPO" = "$MIRROR_REPO" ]; then
