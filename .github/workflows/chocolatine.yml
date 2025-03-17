@@ -23,7 +23,7 @@ jobs:
           echo "Vérification des dépôts source et miroir."
 
           SOURCE_REPO="${{ github.repository }}"
-          MIRROR_REPO=$(echo "${{ secrets.MIRROR_URL }}" | sed 's|https://github.com/||')
+          MIRROR_REPO="$(echo "${{ secrets.MIRROR_URL }}" | sed 's|https://github.com/||')"
 
           echo "Source Repository: $SOURCE_REPO"
           echo "Mirror Repository: $MIRROR_REPO"
