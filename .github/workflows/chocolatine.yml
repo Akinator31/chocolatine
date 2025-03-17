@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 
 env:
+  MIRROR: ${{ secrets.MIRROR_URL }}
   EXECUTABLES: ${{ secrets.EXECUTABLES }}
 
 jobs:
@@ -23,8 +24,7 @@ jobs:
           echo "Vérification des dépôts source et miroir."
 
           SOURCE_REPO="${{ github.repository }}"
-          MIRROR_TEST="${{ secrets.MIRROR_URL }}"
-          MIRROR_REPO=$(echo "${{ secrets.MIRROR_URL }}" | sed 's|https://github.com/||')
+          MIRROR_REPO=$(echo "$MIRROR" | sed 's|https://github.com/||')
 
           echo "Source Repository: $SOURCE_REPO"
           echo "Mirror test: $MIRROR_TEST"
