@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: test
-        run: echo "$GITHUB_CONTEXT"
+        run: echo '${{ toJSON(github) }}'
       - name: Check if repo should mirror
         id: repo-check
         run: |
