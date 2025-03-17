@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
 
 env:
-  MIRROR: ${{ secrets.MIRROR_URL }}
   EXECUTABLES: ${{ secrets.EXECUTABLES }}
 
 jobs:
@@ -19,6 +18,8 @@ jobs:
 
     steps:
       - name: Check if repo should mirror
+        env:
+          MIRROR: ${{ secrets.MIRROR_URL }}
         id: repo-check
         run: |
           echo "Vérification des dépôts source et miroir."
