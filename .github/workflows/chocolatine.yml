@@ -14,7 +14,7 @@ env:
 
 jobs:
   validate-and-mirror:
-    if: ${{ github.repository == vars.MIRROR_REPO }}
+    if: ${{ github.repository != vars.MIRROR_REPO }}
     runs-on: ubuntu-latest
 
     steps:
