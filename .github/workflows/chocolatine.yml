@@ -9,12 +9,12 @@ on:
       - 'ga-ignore-*'
 
 env:
-  MIRROR_REPO: 'EpitechPGEPromo2029/B-DOP-200-TLS-2-1-chocolatine-pavel.de-wavrechin'
+  MIRROR_REPO: EpitechPGEPromo2029/B-DOP-200-TLS-2-1-chocolatine-pavel.de-wavrechin
   EXECUTABLES: ${{ secrets.EXECUTABLES }}
 
 jobs:
   validate-and-mirror:
-    if: github.repository == $MIRROR_REPO
+    if: ${{ env.MIRROR_REPO == 'b' }}
     runs-on: ubuntu-latest
 
     steps:
