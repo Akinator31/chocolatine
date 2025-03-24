@@ -9,15 +9,22 @@ on:
       - 'ga-ignore-*'
 
 env:
-  MIRROR_REPO: EpitechPGEPromo2029/B-DOP-200-TLS-2-1-chocolatine-pavel.de-wavrechin
-  EXECUTABLES: ${{ secrets.EXECUTABLES }}
+  MIRROR_URL: EpitechPGEPromo2029/B-DOP-200-TLS-2-1-chocolatine-pavel.de-wavrechin
+  EXECUTABLES: mysh
 
 jobs:
-  validate-and-mirror:
+
+  coding_style:
+
     if: ${{ github.repository != vars.MIRROR_REPO }}
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
-      - name: Check if repo should mirror
-        id: repo-check
-        run: echo "BONJOUR"
+      - name: check_coding_style
+        uses: actions/checkout@v4
+      
+      - name: run_coding_style
+        run: check.sh $(pwd) $(pwd)
+
