@@ -28,3 +28,5 @@ jobs:
       - name: run_coding_style
         run: check.sh . .
 
+      - name: display_coding_style
+        run: cat coding-style-reports.log
