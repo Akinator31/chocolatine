@@ -26,5 +26,5 @@ jobs:
         uses: actions/checkout@v4
       
       - name: run_coding_style
-        run: check.sh $(pwd) $(pwd)
+        run: check.sh . .
 
