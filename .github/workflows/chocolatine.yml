@@ -82,7 +82,7 @@ jobs:
           for file in $(echo "$EXECUTABLES" | tr ',' ' '); do
             echo $file
             if test -f "$file" || -x "$file"; then
-              echo "Le fichier existe et est executable"
+              echo "The file $file exist and is executable"
             else
               echo "::error title="Binary not found or binary not executable",file=$file"
               exit 1
