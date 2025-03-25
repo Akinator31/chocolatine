@@ -36,7 +36,7 @@ jobs:
             error_type=$(echo "$line" | awk -F: '{print $4}')
 
             if [ "$severity" = "INFO" ]; then
-              echo "::error file=$file,line=$line_number::INFO coding style error: $file#L$line_number $error_type"
+              echo "::error file=$file,line=$line_number::INFO coding style error: $error_type"
             elif [ "$severity" = "MINOR" ]; then
               echo "::error file=$file,line=$line_number::MINOR coding style error: $file#L$line_number $error_type"
             elif [ "$severity" = "MAJOR" ]; then
