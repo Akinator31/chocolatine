@@ -25,8 +25,22 @@ jobs:
       - name: check_coding_style
         uses: actions/checkout@v4
       
-      - name: run_coding_style
-        run: check.sh $(pwd) $(pwd) ; ls
+      - name: run and analyse codebase
+        run: |
+          check.sh $(pwd) $(pwd)
 
-      - name: display_coding_style
-        run: cat coding-style-reports.log
+          while read -r line; do
+            file=$(echo "$line" | awk -F: '{print $1}' | cut -c3-)
+            line_number=$(echo "$line" | awk -F: '{print $2}')
+            severity=$(echo "$line" | awk -F: '{print $3}' | awk '{print $1}')
+            error_type=$(echo "$line" | awk -F: '{print $4}')
+
+            if [ "$severity" = "INFO" ]; then
+              echo "::error file=$file,line=$line_number::INFO coding style error: $file#L$line_number $error_type"
+            elif [ "$severity" = "MINOR" ]; then
+              echo "::error file=$file,line=$line_number::MINOR coding style error: $file#L$line_number $error_type"
+            elif [ "$severity" = "MAJOR" ]; then
+              echo "::error file=$file,line=$line_number::MAJOR coding style error: $file#L$line_number $error_type"
+            fi
+          done < coding-style-reports.log
+
