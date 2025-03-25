@@ -36,11 +36,11 @@ jobs:
             error_type=$(echo "$line" | awk -F: '{print $4}')
 
             if [ "$severity" = "INFO" ]; then
-              echo "::error INFO coding style error: file=$file,line=$line_number::$error_type"
+              echo "::error title="INFO coding style error: ",file=$file,line=$line_number::$error_type"
             elif [ "$severity" = "MINOR" ]; then
-              echo "::error MINOR coding style error: file=$file,line=$line_number::$error_type"
+              echo "::error title="MINOR coding style error: ",file=$file,line=$line_number::$error_type"
             elif [ "$severity" = "MAJOR" ]; then
-              echo "::error MAJOR coding style error: file=$file,line=$line_number::$error_type"
+              echo "::error title="MAJOR coding style error: ",file=$file,line=$line_number::$error_type"
             fi
           done < coding-style-reports.log
 
