@@ -10,7 +10,7 @@ on:
 
 env:
   MIRROR_URL: EpitechPGEPromo2029/B-DOP-200-TLS-2-1-chocolatine-pavel.de-wavrechin
-  EXECUTABLES: a.out
+  EXECUTABLES: "a.out"
 
 jobs:
 
@@ -18,7 +18,7 @@ jobs:
 
     name: Check the coding style
     runs-on: ubuntu-latest
-    if: ${{ github.repository != vars.MIRROR_REPO }}
+    if: ${{ github.repository != vars.MIRROR_URL }}
     container:
       image: ghcr.io/epitech/coding-style-checker:latest
 
@@ -65,6 +65,9 @@ jobs:
       image: epitechcontent/epitest-docker:latest
     
     steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
       - name: Make the project
         timeout-minutes: 2
         run: make
@@ -72,3 +75,16 @@ jobs:
       
       - name: Clean the project
         run: make clean
+        working-directory: ${{ github.workspace }}
+
+      - name: Check executables
+        run: |
+          for file in $(echo "$EXECUTABLES" | tr ',' ' '); do
+            echo $file
+            if test -f "$file" || -x "$file"; then
+              echo "Le fichier existe et est executable"
+            else
+              echo "::error title="Binary not found or binary not executable",file=$file"
+              exit 1
+            fi
+          done
