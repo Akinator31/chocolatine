@@ -15,7 +15,7 @@ OBJ_TEST	=	$(TEST_SRC:.c=.o)
 
 NAME = a.out
 
-TEST_NAME = tests
+TEST_NAME = tests_bin
 
 CC	=	clang
 
