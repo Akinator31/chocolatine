@@ -29,6 +29,7 @@ jobs:
       
       - name: Check coding style
         run: |
+          echo ${{ github.repositoryUrl }}
           check.sh $(pwd) $(pwd)
           errors_found=0
 
