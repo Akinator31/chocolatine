@@ -9,7 +9,7 @@ on:
       - 'ga-ignore-*'
 
 env:
-  MIRROR_REPO: Akinator31/chocolatine-test
+  MIRROR_REPO: $(echo ${{ github.repositoryUrl }} | cut -c 18-)
   MIRROR_URL: git@github.com:Akinator31/chocolatine-test.git
   EXECUTABLES: "a.out"
 
@@ -29,7 +29,7 @@ jobs:
       
       - name: Check coding style
         run: |
-          echo ${{ github.repositoryUrl }}
+          echo $MIRROR_REPO
           check.sh $(pwd) $(pwd)
           errors_found=0
 
