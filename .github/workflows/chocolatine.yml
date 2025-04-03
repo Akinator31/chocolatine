@@ -19,11 +19,8 @@ jobs:
       image: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
-      - name: Set MIRROR_REPO
-        run: echo "MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)" >> $GITHUB_ENV
 
       - name: Checkout source code
-        if: ${{ github.repository != env.MIRROR_REPO }}
         uses: actions/checkout@v4
       
       - name: Check coding style
@@ -81,7 +78,6 @@ jobs:
       - name: Check executables
         run: |
           for file in $(echo "$EXECUTABLES" | tr ',' ' '); do
-            echo $file
             if test -f "$file" || -x "$file"; then
               echo "The file $file exist and is executable"
             else
@@ -125,3 +121,28 @@ jobs:
             ${{ vars.MIRROR_URL }}
           ssh_private_key:
             ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+  
+  check_banned_functions:
+    
+    name: Check for banned functions
+    runs-on: ubuntu-latest
+    if: ${{ vars.BANNED_FUNCTIONS != '' }}
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      
+      - name: Check for banned functions
+        run: |
+          found_banned_function=()
+          for file in $(echo "$EXECUTABLES" | tr ',' ' '); do
+            for function in $(echo "$BANNED_FUNCTIONS" | tr ',' ' '); do
+              if nm $file | grep -w $function; then
+                found_banned_function+=("$function")
+              fi
+          done
+          if [ ${#found_banned_function[@]} -ne 0 ]; then
+            echo "Banned functions found : ${found_banned_function[*]}"
+            exit 1
+          else
+            echo "No banned function founded."
