@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Set MIRROR_REPO
-        run: echo "MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 20- | rev | cut -c 5- | rev)" >> $GITHUB_ENV
+        run: echo "MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)" >> $GITHUB_ENV
 
       - name: Checkout source code
         if: ${{ github.repository != env.MIRROR_REPO }}
