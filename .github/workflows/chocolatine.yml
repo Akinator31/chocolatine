@@ -126,11 +126,19 @@ jobs:
     
     name: Check for banned functions
     runs-on: ubuntu-latest
-    if: ${{ vars.BANNED_FUNCTIONS != '' }}
+    needs: [push_to_mirror]
+    if: ${{ needs.push_to_mirror.result == 'success' }}
+    container:
+      image: epitechcontent/epitest-docker:latest
 
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+
+      - name: Make the project
+        timeout-minutes: 2
+        run: make
+        working-directory: ${{ github.workspace }}
       
       - name: Check for banned functions
         run: |
@@ -140,9 +148,10 @@ jobs:
               if nm $file | grep -w $function; then
                 found_banned_function+=("$function")
               fi
+            done
           done
           if [ ${#found_banned_function[@]} -ne 0 ]; then
             echo "Banned functions found : ${found_banned_function[*]}"
             exit 1
           else
-            echo "No banned function founded."
+            echo "No banned function found."
