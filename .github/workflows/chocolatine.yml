@@ -8,28 +8,26 @@ on:
     branches-ignore:
       - 'ga-ignore-*'
 
-env:
-  MIRROR_REPO: $(echo ${{ github.repositoryUrl }} | cut -c 18-)
-  MIRROR_URL: git@github.com:Akinator31/chocolatine-test.git
-  EXECUTABLES: "a.out"
-
 jobs:
 
   check_coding_style:
 
     name: Check the coding style
     runs-on: ubuntu-latest
-    if: ${{ github.repository != vars.MIRROR_REPO }}
     container:
       image: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
+      - name: Set MIRROR_REPO
+        run: echo "MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)" >> $GITHUB_ENV
+
       - name: Checkout source code
+        if: ${{ github.repository != env.MIRROR_REPO }}
         uses: actions/checkout@v4
       
       - name: Check coding style
         run: |
-          echo ${{ github.repository }}
+          echo $MIRROR_URL
           check.sh $(pwd) $(pwd)
           errors_found=0
 
