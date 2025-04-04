@@ -31,7 +31,7 @@ jobs:
     name: Check the coding style
     runs-on: ubuntu-latest
     needs: [check_workflow_conditions]
-    if: ${{ needs.check_workflow_conditions.result == 'success' }}
+    if: ${{ needs.check_workflow_conditions.result != 'skipped' }}
     container:
       image: ghcr.io/epitech/coding-style-checker:latest
 
