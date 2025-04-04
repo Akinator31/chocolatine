@@ -9,7 +9,7 @@ on:
       - 'ga-ignore-*'
 
 env:
-  MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)
+  MIRROR_REPO: $(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)
 
 jobs:
 
@@ -22,7 +22,9 @@ jobs:
     steps:
       - name: Checkout source code
         if: ${{ github.repository == env.MIRROR_REPO }}
-        run: exit 1
+        run: |
+          echo $MIRROR_REPO
+          exit 1
 
   check_coding_style:
 
