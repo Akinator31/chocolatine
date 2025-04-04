@@ -13,10 +13,22 @@ jobs:
   check_workflow_conditions:
     
     name: Check if the workflow respect correct conditions
-    if: ${{ vars.MIRROR_URL != '' }}
     runs-on: ubuntu-latest
     
     steps:
+
+      - name: Check if MIRROR_URL exist
+        if: ${{ vars.MIRROR_URL == '' }}
+        run: |
+          echo "The variable MIRROR_URL doesn't exist !"
+          exit 1
+      
+      - name: Check if EXECUTABLES exist
+        if: ${{ vars.EXECUTABLES == '' }}
+        run: |
+          echo "The variable EXECUTABLES doesn't exist !"
+          exit 1
+
       - name: Set MIRROR_REPO
         run: echo "MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)" >> $GITHUB_ENV
 
@@ -31,7 +43,7 @@ jobs:
     name: Check the coding style
     runs-on: ubuntu-latest
     needs: [check_workflow_conditions]
-    if: ${{ needs.check_workflow_conditions.result != 'skipped' }}
+    if: ${{ needs.check_workflow_conditions.result == 'success' }}
     container:
       image: ghcr.io/epitech/coding-style-checker:latest
 
