@@ -29,6 +29,7 @@ jobs:
       - name: Check coding style
         run: |
           echo $MIRROR_URL
+          echo $MIRROR_URL
           check.sh $(pwd) $(pwd)
           errors_found=0
 
