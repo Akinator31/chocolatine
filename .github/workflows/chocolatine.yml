@@ -21,7 +21,7 @@ jobs:
     
     steps:
       - name: Checkout source code
-        if: ${{ github.repository == env.MIRROR_REPO }}
+        if: ${{ github.repository != env.MIRROR_REPO }}
         run: |
           echo $MIRROR_REPO
           exit 1
