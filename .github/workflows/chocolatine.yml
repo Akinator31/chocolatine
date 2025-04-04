@@ -8,6 +8,9 @@ on:
     branches-ignore:
       - 'ga-ignore-*'
 
+env:
+  MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)
+
 jobs:
 
   check_workflow_conditions:
@@ -17,12 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Set MIRROR_REPO
-        run: echo "MIRROR_REPO=$(echo ${{ vars.MIRROR_URL }} | cut -c 16- | rev | cut -c 5- | rev)" >> $GITHUB_ENV
-
       - name: Checkout source code
-        if: ${{ github.repository != env.MIRROR_REPO }}
-        uses: actions/checkout@v4
+        if: ${{ github.repository == env.MIRROR_REPO }}
+        run: exit 1
 
   check_coding_style:
 
