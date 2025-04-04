@@ -24,6 +24,7 @@ jobs:
         if: ${{ github.repository == env.MIRROR_REPO }}
         run: |
           echo "You're trying to run workflow on the mirror repository !"
+          exit 1
 
   check_coding_style:
 
@@ -41,8 +42,6 @@ jobs:
       
       - name: Check coding style
         run: |
-          echo $MIRROR_URL
-          echo $MIRROR_URL
           check.sh $(pwd) $(pwd)
           errors_found=0
 
