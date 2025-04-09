@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-int main(void)
+int main()
 {
     printf("CHOCOLATINE\n");
     return 0;
